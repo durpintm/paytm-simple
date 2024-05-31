@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const uri = "mongodb://localhost:27017/PaytmDB";
 
 mongoose.connect(uri);
 
-const UserSchema = mongoose.Schema({
+const UserSchema = Schema({
   first_name: {
     type: String,
     required: true,
@@ -33,6 +33,19 @@ const UserSchema = mongoose.Schema({
   },
 });
 
-const Users = mongoose.model("Users", UserSchema);
+const AccountSchema = mongoose.Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
 
-module.exports = Users;
+const Users = model("Users", UserSchema);
+const Accounts = model("Accounts", AccountSchema);
+
+module.exports = { Users, Accounts };
