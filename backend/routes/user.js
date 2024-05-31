@@ -105,4 +105,32 @@ userRouter.put("/", authMiddleware, async (req, res) => {
   });
 });
 
+userRouter.get("/bulk", authMiddleware, async (req, res) => {
+  const filter = req.query.filter || "";
+
+  const users = await Users.find({
+    $or: [
+      {
+        first_name: {
+          $regex: filter,
+        },
+      },
+      {
+        last_name: {
+          $regex: filter,
+        },
+      },
+    ],
+  });
+
+  return res.status(200).json({
+    users: users.map((user) => ({
+      username: user.first_name,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      _id: user._id,
+    })),
+  });
+});
+
 module.exports = userRouter;
