@@ -1,10 +1,10 @@
-const { Router } = require("express");
-import zod from "zod";
-import Users from "../db";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config";
+const express = require("express");
+const zod = require("zod");
+const Users = require("../db");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config");
 
-const userRouter = Router();
+const userRouter = express.Router();
 
 const signUpBody = zod.object({
   username: zod.string().email(),
@@ -18,7 +18,7 @@ const signInBody = zod.object({
   password: zod.string(),
 });
 
-userRouter.post("signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   const { success } = signUpBody.safeParse(req.body);
 
   if (!success) {
@@ -28,8 +28,9 @@ userRouter.post("signup", async (req, res) => {
   }
 
   const existingUser = Users.findOne({ username: req.body.username });
+  console.log(existingUser);
 
-  if (existingUser) {
+  if (existingUser.username) {
     return res.status(411).json({
       message: "User already exists",
     });
@@ -52,7 +53,7 @@ userRouter.post("signup", async (req, res) => {
   });
 });
 
-userRouter.post("signin", (req, res) => {
+userRouter.post("/signin", (req, res) => {
   const { success } = signInBody.safeParse(req.body);
 
   if (!success) {
