@@ -4,7 +4,7 @@ const { Users, Accounts } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleware } = require("../middleware/authMiddleware");
-const getRandomBalance = require("../utils/common");
+const { getRandomBalance } = require("../utils/common");
 
 const userRouter = express.Router();
 
@@ -120,12 +120,12 @@ userRouter.get("/bulk", authMiddleware, async (req, res) => {
     $or: [
       {
         first_name: {
-          $regex: filter,
+          $regex: new RegExp(filter, "i"),
         },
       },
       {
         last_name: {
-          $regex: filter,
+          $regex: new RegExp(filter, "i"),
         },
       },
     ],

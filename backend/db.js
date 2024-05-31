@@ -1,8 +1,10 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, connect } = require("mongoose");
 
-const uri = "mongodb://localhost:27017/PaytmDB";
+// const uri = "mongodb://localhost:27017/PaytmDB";
+const uri =
+  "mongodb+srv://durpinthapa:DOqi2UWVlVtIlnAk@cluster0.ambo6kb.mongodb.net/paytm";
 
-mongoose.connect(uri);
+connect(uri);
 
 const UserSchema = Schema({
   first_name: {
@@ -33,7 +35,7 @@ const UserSchema = Schema({
   },
 });
 
-const AccountSchema = mongoose.Schema({
+const AccountSchema = Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "Users",
