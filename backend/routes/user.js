@@ -3,6 +3,7 @@ const zod = require("zod");
 const Users = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 const userRouter = express.Router();
 
@@ -53,7 +54,7 @@ userRouter.post("/signup", async (req, res) => {
   });
 });
 
-userRouter.post("/signin", (req, res) => {
+userRouter.post("/signin", async (req, res) => {
   const { success } = signInBody.safeParse(req.body);
 
   if (!success) {
@@ -62,7 +63,7 @@ userRouter.post("/signin", (req, res) => {
     });
   }
 
-  const existingUser = Users.findOne({
+  const existingUser = await Users.findOne({
     username: req.body.username,
     password: req.body.password,
   });
@@ -79,6 +80,28 @@ userRouter.post("/signin", (req, res) => {
 
   return res.json({
     token: token,
+  });
+});
+
+const updateBody = zod.object({
+  password: zod.string(),
+  first_name: zod.string(),
+  last_name: zod.string(),
+});
+
+userRouter.put("/", authMiddleware, async (req, res) => {
+  const { success } = updateBody.safeParse(req.body);
+
+  if (!success) {
+    return res.status(411).json({
+      message: "Error while updating information",
+    });
+  }
+
+  await Users.UpdateOne({ _id: req.userId }, req.body);
+
+  return res.status(200).json({
+    message: "User updated successfully",
   });
 });
 
