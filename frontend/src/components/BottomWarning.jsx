@@ -1,6 +1,14 @@
+import { Link } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
-const BottomWarning = ({ label }) => {
-  return <div className="text-slate-500 text-md pt-1 px-4 pb-4">{label}</div>;
+const BottomWarning = ({ label, buttonText, to }) => {
+  return (
+    <div className="py-2 text-sm flex justify-center">
+      <div>{label}</div>
+      <Link to={to} className="pointer underline pl-1 cursor-pointer">
+        {buttonText}
+      </Link>
+    </div>
+  );
 };
 
 export default BottomWarning;
