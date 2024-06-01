@@ -13,7 +13,6 @@ const accountBody = zod.object({
 
 accountRouter.get("/balance", authMiddleware, async (req, res) => {
   const userId = req.userId;
-  console.log(userId);
 
   const account = await Accounts.findOne({
     userId: userId,
@@ -24,7 +23,6 @@ accountRouter.get("/balance", authMiddleware, async (req, res) => {
       message: "No account data",
     });
   }
-  console.log(account.balance);
 
   return res.status(200).json({
     balance: account.balance,

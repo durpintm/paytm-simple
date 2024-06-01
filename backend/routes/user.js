@@ -30,7 +30,6 @@ userRouter.post("/signup", async (req, res) => {
   }
 
   const existingUser = Users.findOne({ username: req.body.username });
-  console.log(existingUser);
 
   if (existingUser.username) {
     return res.status(411).json({
