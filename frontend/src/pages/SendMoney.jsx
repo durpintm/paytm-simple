@@ -12,7 +12,6 @@ const SendMoney = () => {
 
   const id = searchParams.get("id");
   const name = searchParams.get("name");
-  console.log(id);
 
   return (
     <div className="flex justify-center h-screen bg-gray-100">
