@@ -3,13 +3,13 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 /* eslint-disable react/no-unescaped-entities */
 const SendMoney = () => {
   const [amount, setAmount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const id = searchParams.get("id");
   const name = searchParams.get("name");
 
@@ -61,6 +61,9 @@ const SendMoney = () => {
                       },
                     }
                   );
+
+                  setAmount(0);
+                  navigate("/dashboard");
                 }}
               >
                 Initiate Transfer
