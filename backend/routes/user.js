@@ -29,9 +29,8 @@ userRouter.post("/signup", async (req, res) => {
     });
   }
 
-  const existingUser = Users.findOne({ username: req.body.username });
-
-  if (existingUser.username) {
+  const existingUser = await Users.findOne({ username: req.body.username });
+  if (existingUser) {
     return res.status(411).json({
       message: "User already exists",
     });
@@ -132,7 +131,7 @@ userRouter.get("/bulk", authMiddleware, async (req, res) => {
 
   return res.status(200).json({
     users: users.map((user) => ({
-      username: user.first_name,
+      username: user.username,
       first_name: user.first_name,
       last_name: user.last_name,
       _id: user._id,
