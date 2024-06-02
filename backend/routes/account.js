@@ -36,8 +36,8 @@ accountRouter.post("/transfer", authMiddleware, async (req, res) => {
       message: "Invalid request",
     });
   }
+  const { to, amount } = req.body;
 
-  const { amount, to } = req.body;
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -69,7 +69,7 @@ accountRouter.post("/transfer", authMiddleware, async (req, res) => {
       userId: req.userId,
     },
     {
-      $inc: { balance: -amount },
+      $inc: { balance: -Number(amount) },
     }
   ).session(session);
 
