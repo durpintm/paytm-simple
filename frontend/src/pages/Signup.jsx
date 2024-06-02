@@ -7,6 +7,7 @@ import SubHeading from "../components/SubHeading";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthProvider";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +15,8 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const { setIsLoggedIn } = useAuth();
 
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
@@ -63,6 +66,9 @@ const Signup = () => {
                 );
 
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("isLoggedIn", true);
+
+                setIsLoggedIn(true);
                 navigate("/dashboard");
               }}
               label={"Sign Up"}
@@ -71,7 +77,7 @@ const Signup = () => {
           <BottomWarning
             label={"Already have an account?"}
             buttonText={"Sign in"}
-            to={"/signin"}
+            to={"/"}
           />
         </div>
       </div>

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 
 const Appbar = () => {
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
   return (
     <div className="shadow h-14 flex justify-between">
       <div className="flex flex-col justify-center h-full ml-4">PayTM App</div>
@@ -15,6 +17,9 @@ const Appbar = () => {
             className="bg-slate-600 text-white p-2 rounded-lg hover:bg-slate-800"
             onClick={() => {
               localStorage.removeItem("token");
+              localStorage.removeItem("isLoggedIn");
+
+              setIsLoggedIn(false);
               navigate("/");
             }}
           >

@@ -68,6 +68,15 @@ const SendMoney = () => {
               >
                 Initiate Transfer
               </button>
+
+              <button
+                onClick={() => {
+                  navigate("/dashboard");
+                }}
+                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-slate-800 text-white"
+              >
+                Dashboard
+              </button>
             </div>
           </div>
         </div>

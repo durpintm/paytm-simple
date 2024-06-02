@@ -6,11 +6,14 @@ import InputBox from "../components/InputBox";
 import SubHeading from "../components/SubHeading";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../components/AuthProvider";
 
 const Signin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const { setIsLoggedIn } = useAuth();
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
@@ -44,7 +47,11 @@ const Signin = () => {
                 );
                 console.log(response);
                 localStorage.removeItem("token");
+                localStorage.removeItem("isLoggedIn");
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("isLoggedIn", true);
+
+                setIsLoggedIn(true);
                 navigate("/dashboard");
               }}
             />
